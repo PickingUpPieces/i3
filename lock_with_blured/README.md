@@ -1,5 +1,5 @@
 Takes screenshot and blures it. Calls betterlockscreen afterwards to lock the screen. 
-Useful with xautolock -> Call ./lock.sh
+Useful with xautolock -> See folder autolock
 
 Requirements:
 ffmpeg [apt]
