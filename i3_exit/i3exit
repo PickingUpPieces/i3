@@ -1,0 +1,30 @@
+#!/bin/bash
+
+option="$1"
+bg_col="#08d9d6"
+fg_col="#252a34"
+font="Overpass"
+
+dmenu_opt="-fn $font -nb $bg_col -nf $fg_col -sb $fg_col -sf $bg_col -i"
+
+action=$(printf 'shutdown\nreboot\nsuspend\nhibernate\n' | dmenu $dmenu_opt -p "What do you want to do?")
+if [ -z $action ]; then
+	exit 0
+fi
+
+if [ $action != "shutdown" ] && [ $action != "reboot" ] && [ $action != "suspend" ] && [ $action != "hibernate" ]; then
+	exit 0
+fi
+confirm=$(printf "no\nyes\n" | dmenu $dmenu_opt -p "$action - sure?")
+
+
+if [ $confirm == "yes" ]; then
+	if [ $action == "shutdown" ]; then
+		action="poweroff"
+	fi
+	if [ $action == "poweroff" ] | [ $action == "reboot" ]; then
+		wmctrl -c "Mozilla Firefox"
+	fi
+
+	systemctl $action
+fi
